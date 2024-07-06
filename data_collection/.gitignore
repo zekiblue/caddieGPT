@@ -2,3 +2,6 @@
 .idea
 
 *.json
+
+!kb/output_1.json
+!kb/output_2.json
