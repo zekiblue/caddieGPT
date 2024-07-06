@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "caddie"
+version = "0.1.0"
+description = ""
+authors = ["zekiblue <hi.zekiblue@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+naptha-sdk = {git = "https://github.com/NapthaAI/naptha-sdk.git"}
+instructor = "^0.3.4"  # Replace with the version you need
+litellm = "^1.41.8"
+pydantic = "^2.8.2"
+pyyaml = "^6.0.1"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
