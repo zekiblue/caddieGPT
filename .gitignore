@@ -2,3 +2,6 @@
 .env
 naptha-sdk
 node
+galadriel_contracts
+rag_tools
+template
