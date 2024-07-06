@@ -46,7 +46,7 @@ contract CaddieGPT {
 
     // @notice Event emitted when a new chat is created
     event ChatCreated(address indexed owner, uint256 indexed chatId);
-    event ProposalSubmitted(uint );
+    event ProposalSubmitted(uint256);
     event OracleAddressUpdated(address indexed newOracleAddress);
     event KnowledgeBaseUpdated(string newKnowledgeBase);
     event InstructionUpdated(string newInstruction);
@@ -115,7 +115,7 @@ contract CaddieGPT {
         _proposal.messagesCount++;
         // If there is a knowledge base, create a knowledge base query
         if (bytes(knowledgeBase).length > 0) {
-            IOracle(oracleAddress)Query(currentProposalId, knowledgeBase, message, 3);
+            IOracle(oracleAddress).createKnowledgeBaseQuery(currentProposalId, knowledgeBase, message, 3);
         } else {
             // Otherwise, create an LLM call
             IOracle(oracleAddress).createLlmCall(currentProposalId);
@@ -192,18 +192,8 @@ contract CaddieGPT {
     // @param role The role of the message
     // @param content The content of the message
     // @return The created message
-    function createTextMessage(
-        string memory role,
-        string memory content
-    )
-        private
-        pure
-        returns (Message memory)
-    {
-        MessageContent memory newContent = MessageContent({
-            contentType: "text",
-            value: content
-        });
+    function createTextMessage(string memory role, string memory content) private pure returns (Message memory) {
+        MessageContent memory newContent = MessageContent({ contentType: "text", value: content });
         Message memory newMessage = Message({ role: role, content: newContent });
         return newMessage;
     }
@@ -217,9 +207,9 @@ contract CaddieGPT {
     // @return An array of message contents
     // @dev Called by teeML oracle
     function getMessageHistoryContents(uint256 proposalId) public view returns (string[] memory) {
-        uint messagesLength = proposals[proposalId].messagesCount;
+        uint256 messagesLength = proposals[proposalId].messagesCount;
         string[] memory previousMessages = new string[](messagesLength);
-        for (uint i = 0; i < messagesLength; i++) {
+        for (uint256 i = 0; i < messagesLength; i++) {
             previousMessages[i] = messages[proposalId][i].content.value;
         }
         return previousMessages;
@@ -229,10 +219,10 @@ contract CaddieGPT {
     // @param chatId The ID of the proposal
     // @return An array of message roles
     // @dev Called by teeML oracle
-    function getMessageHistoryRoles(uint proposalId) public view returns (string[] memory) {
-        uint messagesLength = proposals[proposalId].messagesCount;
+    function getMessageHistoryRoles(uint256 proposalId) public view returns (string[] memory) {
+        uint256 messagesLength = proposals[proposalId].messagesCount;
         string[] memory roles = new string[](messagesLength);
-        for (uint i = 0; i < messagesLength; i++) {
+        for (uint256 i = 0; i < messagesLength; i++) {
             roles[i] = messages[proposalId][i].role;
         }
         return roles;
