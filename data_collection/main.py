@@ -338,7 +338,8 @@ def query_discourse_decentraland_proposals(first: int, skip: int):
 def query_discourse_decentraland_comments(q_id: str):
     # "https://governance.decentraland.org/api/proposals/d7a3fbcf-5231-4f8c-b0dd-305f3f8c6ada/comments"
     url = f"https://governance.decentraland.org/api/proposals/{q_id}/comments"
-    response = requests.get(url, params=params)
+    response = requests.get(url)
+    return response.json()
 
 
 if __name__ == '__main__':
