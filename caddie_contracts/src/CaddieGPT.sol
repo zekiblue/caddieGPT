@@ -103,7 +103,7 @@ contract CaddieGPT {
             improvedBody: "",
             iteration: 0,
             possibleOutcome: 0,
-            messagesCount: 0
+            messagesCount: 1
         });
         uint256 currentProposalId = proposalCount;
         proposalCount++;
