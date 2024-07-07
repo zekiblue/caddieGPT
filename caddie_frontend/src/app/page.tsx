@@ -1,9 +1,8 @@
 "use client";
 
-import { Box, Button, Flex, Heading, HStack, Text, useColorMode, VStack } from "@chakra-ui/react";
+import { Button, Flex, Heading, HStack, VStack } from "@chakra-ui/react";
 
 export default function Home() {
-  const { colorMode } = useColorMode();
 
   return (
     <Flex alignContent={"center"} justifyContent={"center"} w={"%100"}>
