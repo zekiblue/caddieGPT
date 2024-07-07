@@ -22,7 +22,9 @@ const Header: FC = () => {
       zIndex={10}
       justifyContent={"space-between"}
     >
-      <HStack>
+      <HStack style={{cursor: "pointer"}} onClick={() => {
+        window.open("/", "_self");
+      }}>
         <Image src={logo} alt="logo" width={45} height={45} />
         {!isTablet && (
           <Heading as="h1" fontSize={"1.5rem"} className="text-shadow">
