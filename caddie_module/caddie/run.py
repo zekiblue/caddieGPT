@@ -5,6 +5,7 @@ from litellm import completion
 import yaml
 import json
 import requests
+import re
 
 logger = get_logger(__name__)
 
@@ -96,6 +97,27 @@ def get_proposal_detail(dao_code, proposal_id):
     return result
 
 
+def parse_text(text):
+    # Extract JSON blocks
+    json_blocks = re.findall(r'```json\n(.*?)\n```', text, re.DOTALL)
+
+    # Parse JSON blocks
+    parsed_blocks = [json.loads(block) for block in json_blocks]
+
+    # Extract extra text (everything outside JSON blocks)
+    extra_text = re.sub(r'```json\n.*?\n```', '', text, flags=re.DOTALL).strip()
+
+    # Create the result dictionary
+    result = {
+        "reason": parsed_blocks[0]["reason"],
+        "should_vote": parsed_blocks[0]["should_vote"],
+        "possible_result": parsed_blocks[0]["possible_result"],
+        "extra": extra_text
+    }
+
+    return result
+
+
 def run(inputs: InputSchema, worker_nodes=None, orchestrator_node=None, flow_run=None, cfg: dict = None):
     logger.info(
         f"Running with inputs address: {inputs.wallet_address}, code: {inputs.dao_code}, proposal: {inputs.proposal_id}")
@@ -118,9 +140,12 @@ def run(inputs: InputSchema, worker_nodes=None, orchestrator_node=None, flow_run
 
     response = llm_call(messages, cfg)
 
-    logger.info(f"Result: {response}")
+    content = response.choices[0].message.content
+    parsed_content = parse_text(content)
 
-    return response.model_dump_json()
+    logger.info(f"Result: {parsed_content}")
+
+    return parsed_content
 
 
 if __name__ == "__main__":
