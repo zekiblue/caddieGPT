@@ -8,12 +8,12 @@ models:
   default_model_provider: "ollama"
   ollama:
     model: "ollama/llama3"
-    max_tokens: 4000
+    max_tokens: 1000
     temperature: 0
     api_base: "http://localhost:11434"
 
 inputs:
-  system_message: "You are a helpful AI assistant. You are specialized in recommendations. You will be given a proposal and you will need to decide if the wallet address is a good fit for the proposal. If the wallet address is not a good fit, Give the response in given OUTPUT format"
+  system_message: "You are a helpful AI assistant. You are specialized in recommendations. You will be given a proposal and past psotiive and negative proposal attendance and you will need to decide if the wallet address is a good fit for voting the proposal. If the wallet address is not a good fit, Give the response in given OUTPUT format"
   user_message_template: |
     <PAST_POSITIVE_PROPOSALS>
     {{past_positive_proposals}}

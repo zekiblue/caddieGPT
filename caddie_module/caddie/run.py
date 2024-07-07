@@ -98,6 +98,9 @@ def get_proposal_detail(dao_code, proposal_id):
 
 
 def parse_text(text):
+    print('-' * 50)
+    print(text)
+    print('-' * 50)
     # Extract JSON blocks
     json_blocks = re.findall(r'```json\n(.*?)\n```', text, re.DOTALL)
 
@@ -125,8 +128,10 @@ def run(inputs: InputSchema, worker_nodes=None, orchestrator_node=None, flow_run
     past_positive_proposals = get_positive_proposal_summaries(inputs.dao_code, inputs.wallet_address)
     past_negative_proposals = get_negative_proposal_summaries(inputs.dao_code, inputs.wallet_address)
 
+
     user_prompt = cfg["inputs"]["user_message_template"].replace("{{past_positive_proposals}}", past_positive_proposals)
     user_prompt = user_prompt.replace("{{past_negative_proposals}}", past_negative_proposals)
+    user_prompt = user_prompt.replace("{{wallet_address}}", inputs.wallet_address)
 
     proposal_detail = get_proposal_detail(inputs.dao_code, inputs.proposal_id)
     user_prompt = user_prompt.replace("{{title}}", proposal_detail["title"])
@@ -153,6 +158,18 @@ if __name__ == "__main__":
         cfg = yaml.safe_load(f)
 
     inputs = InputSchema(wallet_address="0x47EE523d873Fc9375a507F970ad2601f720A16Bc",
-                         proposal_id="0xfab4a2ad457ee70d80100a9460db2a48bb3390d9002e562fe9cc8ce0ed913721")
+                         proposal_id="0x365eab458d8434c334c93c1d45baaeb90f00f01e18f9736ba60e9edefab10af1")
+    r = run(inputs, cfg=cfg)
+    logger.info(f"Result: {type(r)}")
+
+    inputs = InputSchema(wallet_address="0x47EE523d873Fc9375a507F970ad2601f720A16Bc",
+                         proposal_id="0xccc1e48ff69c5bb4ecb7fede490b97a8a66fa9dd91cab9311471dfa0a186b79d")
+
+    r = run(inputs, cfg=cfg)
+    logger.info(f"Result: {type(r)}")
+
+    inputs = InputSchema(wallet_address="0x47EE523d873Fc9375a507F970ad2601f720A16Bc",
+                         proposal_id="0x5f94d10cc56160b80f63ed718ce13bdd807c663c0f0aea3166aef8934f897e9a")
+
     r = run(inputs, cfg=cfg)
     logger.info(f"Result: {type(r)}")
