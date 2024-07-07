@@ -10,30 +10,8 @@ import {
   safeWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import type { Transport } from "viem";
+import { defineChain, type Transport } from "viem";
 import { createConfig, http } from "wagmi";
-import {
-  mainnet,
-  sepolia,
-  polygon,
-  polygonMumbai,
-  optimism,
-  optimismGoerli,
-  arbitrum,
-  arbitrumGoerli,
-  zkSync,
-  zkSyncSepoliaTestnet,
-  linea,
-  lineaTestnet,
-  base,
-  baseGoerli,
-  bsc,
-  bscTestnet,
-} from "wagmi/chains";
-
-// import linea_logo from "../public/img/linea_logo.png";
-// import lineaTesnet_logo from "../public/img/lineaTesnet_logo.png";
-// import zksync_logo from "../public/img/zksync_logo.svg";
 
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
@@ -59,7 +37,7 @@ const connectors = connectorsForWallets(
       ],
     },
   ],
-  { appName: "Next-Web3-Boilerplate", projectId: walletConnectProjectId },
+  { appName: "caddieGPT", projectId: walletConnectProjectId },
 );
 
 // Fix missing icons
@@ -67,42 +45,36 @@ const connectors = connectorsForWallets(
 // const customLinea = { ...linea, iconUrl: linea_logo.src };
 // const customLineaTestnet = { ...lineaTestnet, iconUrl: lineaTesnet_logo.src };
 
+export const galadriel_devnet = /*#__PURE__*/ defineChain({
+  id: 69_6969,
+  name: 'Galadriel Devnet',
+  nativeCurrency: { name: 'Galadriel', symbol: 'GAL', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ['https://devnet.galadriel.com/'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Galadriel Devnet Scan',
+      url: 'https://explorer.galadriel.com',
+      apiUrl: 'https://explorer.galadriel.com/api/v2',
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 7654707,
+    },
+  },
+})
+
 const transports: Record<number, Transport> = {
-  [mainnet.id]: http(),
-  [sepolia.id]: http(),
-  [polygon.id]: http(),
-  [polygonMumbai.id]: http(),
-  [optimism.id]: http(),
-  [optimismGoerli.id]: http(),
-  [arbitrum.id]: http(),
-  [arbitrumGoerli.id]: http(),
-  [zkSync.id]: http(),
-  [zkSyncSepoliaTestnet.id]: http(),
-  [linea.id]: http(),
-  [lineaTestnet.id]: http(),
-  [base.id]: http(),
-  [baseGoerli.id]: http(),
-  [bsc.id]: http(),
-  [bscTestnet.id]: http(),
+  [galadriel_devnet.id]: http(),
 };
 export const wagmiConfig = createConfig({
   chains: [
-    mainnet,
-    sepolia,
-    polygon,
-    polygonMumbai,
-    optimism,
-    optimismGoerli,
-    arbitrum,
-    arbitrumGoerli,
-    // customLinea,
-    // customLineaTestnet,
-    zkSync,
-    // customZkSyncSepoliaTestnet,
-    base,
-    baseGoerli,
-    bsc,
-    bscTestnet,
+    galadriel_devnet,
   ],
   connectors,
   transports,
