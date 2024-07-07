@@ -3,6 +3,9 @@
 import React from "react";
 
 import { Box, Button, Flex, Heading, Input, Text, Textarea, VStack } from "@chakra-ui/react";
+import { useWriteContract } from "wagmi";
+
+import caddieABI from "@/abis/caddieGPTABI.json";
 
 const POSSIBLE_DAOS = [
   {
@@ -10,6 +13,8 @@ const POSSIBLE_DAOS = [
     id: "snapshot.dcl.eth",
   }
 ];
+
+const caddieAddress = "0x5e5d71e3E0a113B86916404D82cCb78F1b082bcd";
 
 export default function DraftProposal({
   daoId,
@@ -19,6 +24,19 @@ export default function DraftProposal({
   const [bodyValue, setBodyValue] = React.useState('')
   const handleTitleChange = (event: any) => setTitleValue(event.target.value)
   const handleBodyChange = (event: any) => setBodyValue(event.target.value)
+  const { writeContract } = useWriteContract();
+
+  const submitProposal = () => {
+    writeContract({
+      abi: caddieABI,
+      address: caddieAddress as `0x${string}`,
+      functionName: "checkProposal",
+      args: [
+        titleValue,
+        bodyValue,
+      ],
+    });
+  };
 
 
   return (
@@ -62,13 +80,14 @@ export default function DraftProposal({
             <Box>
               <Button
                 w={"full"}
+                isDisabled={!titleValue || !bodyValue}
                 // mx={12}
                 // py={8}
                 colorScheme={"gray"}
                 // onClick={() => {
                 //   window.open("/propose", "_self");
                 // }}
-                // onClick={handleSignMessage}
+                onClick={submitProposal}
                 // isLoading={isPending}
                 // className="custom-button"
               >
