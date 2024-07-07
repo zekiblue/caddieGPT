@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Button, Flex, Heading, HStack, Select, VStack, Text } from "@chakra-ui/react";
 import { useState } from "react";
+
+import { Box, Button, Flex, Heading, HStack, Select, Text, VStack } from "@chakra-ui/react";
 
 const POSSIBLE_DAOS = [
   {

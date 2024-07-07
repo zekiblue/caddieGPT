@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Button, Flex, Heading, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 import React from "react";
+
+import { Box, Button, Flex, Heading, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 
 const POSSIBLE_DAOS = [
   {

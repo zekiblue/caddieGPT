@@ -1,7 +1,8 @@
 "use client";
 
-import { Button, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+
+import { Button, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 
 const POSSIBLE_PROPOSALS = [
@@ -59,7 +60,6 @@ export default function Home() {
   }
   , [userWalletAddress]);
 
-  // @ts-ignore
   return (
     <Flex alignContent={"center"} justifyContent={"center"} w={"%100"}>
       <VStack maxW={"800px"} mt={12}>
