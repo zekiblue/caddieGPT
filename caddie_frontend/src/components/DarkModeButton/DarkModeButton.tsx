@@ -1,7 +1,9 @@
 import { type FC, useEffect } from "react";
 
-import { SunIcon, MoonIcon } from "@chakra-ui/icons";
-import { Button, useColorMode } from "@chakra-ui/react";
+// import { SunIcon, MoonIcon } from "@chakra-ui/icons";
+import {
+  // Button,
+  useColorMode } from "@chakra-ui/react";
 
 const DarkModeButton: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
