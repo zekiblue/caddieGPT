@@ -136,8 +136,23 @@ export default function Home() {
                   <Text alignSelf={"left"} w={"full"} fontWeight={"bold"}>
                     Caddie proposal
                   </Text>
+                  <Text>
+                    Possible answer: {
+                    // @ts-expect-error - caddieProposalResponse is a dictionary
+                    caddieProposalResponse[proposal.id].possible_result
+                  }
+                    <br/>
+                    Reason: {
+                    // @ts-expect-error - caddieProposalResponse is a dictionary
+                    caddieProposalResponse[proposal.id].reason
+                  }
+                  </Text>
                   <HStack w={"full"}>
-                    <Button colorScheme={"gray"} w={"full"}>Go to Voting</Button>
+                    <Button colorScheme={"gray"} w={"full"} onClick={
+                      () => {
+                        window.open(`https://snapshot.org/#/${proposal.daoCode}/proposal/${proposal.id}`, "_blank");
+                      }
+                    }>Go to Voting</Button>
                   </HStack>
                 </VStack>
             }
